@@ -7,8 +7,6 @@ from flask import send_file
 
 import chesscombot as cb
 
-os.system("killall firefox")
-
 try:
 	with open('sessions.list', 'rb') as f:
 		sessions = pickle.load(f)
