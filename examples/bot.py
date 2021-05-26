@@ -12,7 +12,7 @@ def getfen(gameid):
 
 def gameover(gameid):
 	data = requests.get(f'http://127.0.0.1:5000/api/gameover?key={session}&gameid={gameid}').content
-	return data == "true"
+	return data.decode().strip() == "true" or 'true' in data
 
 def myturn(gameid):
 	data = requests.get(f'http://127.0.0.1:5000/api/myturn?key={session}&gameid={gameid}').content.decode()

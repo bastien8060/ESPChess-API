@@ -4,7 +4,6 @@ from time import sleep as delay
 from bs4 import BeautifulSoup
 from flask import send_file
 
-
 import chesscombot as cb
 
 try:
@@ -12,7 +11,6 @@ try:
 		sessions = pickle.load(f)
 except:
 	sessions = {}
-
 
 
 def navigate(page,sess=None,refresh=False,timing=False,ThirdUser=False):
@@ -133,7 +131,7 @@ def init():
 	profile = selenium.webdriver.FirefoxProfile('/home/festus8070/.mozilla/firefox/ys8519em.default-release/') 
 	#profile.add_extension('ublock.xpi')
 	firefox_options = selenium.webdriver.FirefoxOptions()
-	firefox_options.headless = True
+	#firefox_options.headless = True
 	firefox_options.add_argument("--start-maximized")
 	driver = selenium.webdriver.Firefox(firefox_profile=profile,options=firefox_options)
 	'''driver.install_addon('src/ublock.xpi')

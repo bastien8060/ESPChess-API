@@ -131,47 +131,63 @@ def gameover(driver):
 							return {'ended':True}
 					return {'ended':False}
 
+def click_element(driver,css_selector=False,class_name=False,path=False):
+	try:
+		if class_name:
+			driver.find_element_by_class_name(class_name).click()
+		else:
+			raise Exception('None')
+	except:
+		try:
+			if css_selector:
+				driver.find_element_by_css_selector(css_selector).click()
+			else:
+				raise Exception('None')
+		except:
+			try:
+				if path:
+					driver.find_element_by_xpath(path).click()
+				else:
+					raise Exception('None Worked')
+			except:
+				raise Exception('None Worked')
 
 
 def timecontrol(rated,time,driver):	
 	try:
-		driver.find_element_by_css_selector('.board-modal-header-close').click() #close you won popup
+		click_element(driver,css_selector='.board-modal-header-close') #close you won popup
 	except:
 		pass
 	try:
-		driver.find_element_by_css_selector('span.x:nth-child(3)').click() #close game screen
+		click_element(driver,css_selector='span.x:nth-child(3)')  #close game screen
 	except:
 		pass
 	delay(.1)
 	try:
-		driver.find_element_by_css_selector('span.x:nth-child(3)').click() #close game screen
+		click_element(driver,css_selector='span.x:nth-child(3)') #close game screen
 	except:
 		pass
 	try:
-		driver.find_element_by_class_name('tabs-close').click() #close game screen
+		click_element(driver,class_name='tabs-close')#close game screen
 	except:
 		pass
-	driver.find_element_by_xpath('//*[@id="board-layout-sidebar"]/div/div[2]/div/div[1]/div[1]/div/div/button').click()
+	click_element(driver,class_name='time-selector-button',path='//*[@id="board-layout-sidebar"]/div/div[2]/div/div/div[1]/div[1]/div/div/button')
 	if time == '10-0':
-		driver.find_element_by_xpath('//*[@id="board-layout-sidebar"]/div/div[2]/div/div[1]/div[1]/div/div/div/div[3]/div/button[1]').click()
+		click_element(driver,css_selector='div.new-game-index-play > div > div > div > div:nth-child(3) > div > button:nth-child(1)',path='//*[@id="board-layout-sidebar"]/div/div[2]/div/div/div[1]/div[1]/div/div/div/div[3]/div/button[1]')
 	delay(.1)
 
 	if not rated:
-		driver.find_element_by_xpath('/html/body/div[3]/div/div[2]/div/div[1]/div[3]/div/button[1]').click() #cusstom game menu
+		print('not rated')
+		click_element(driver,path="//span[contains(@class, 'new-game-option-toggles')]/parent::button") #cusstom game menu
 
 		try:
-			driver.find_element_by_xpath('/html/body/div[3]/div/div[2]/div/div[2]/div/div[1]/div[5]')  #special menu
+			driver.find_element_by_xpath("//label[text() = 'I Play As']/parent::div")  #special menu
 		except NoSuchElementException:
-			driver.find_element_by_xpath('/html/body/div[3]/div/div[2]/div/div[2]/div/div[1]/div[4]/div/label/div').click() #toggle
+			click_element(driver,class_name='ui_v5-switch-button') #toggle
 
 
 		try:
-			driver.find_element_by_xpath('/html/body/div[16]/div/div/button').click()
-		except:
-			pass
-
-		try:
-			driver.find_element_by_xpath('/html/body/div[17]/div/div/button').click()
+			click_element(driver,path="//span[contains(@class,'chess-move')]/parent::button")
 		except:
 			pass
 			
@@ -201,22 +217,22 @@ def timecontrol(rated,time,driver):
 		except:
 			pass
 
+		try:
+			click_element(driver,path="//span[contains(@class,'chess-move')]/parent::button")
+		except:
+			print('not found start')
 			
-
-
-		driver.find_element_by_css_selector('.form-button-component').click()#
 	else:
+		print('rated brr')
 		try:
-			driver.find_element_by_xpath('/html/body/div[16]/div/div/button').click()
+			driver.find_element_by_class_name('ui_v5-button-large').click()
 		except:
 			pass
+		driver.find_element_by_class_name('ui_v5-button-primary').click()
+		
 
-		try:
-			driver.find_element_by_xpath('/html/body/div[17]/div/div/button').click()
-		except:
-			pass
-		driver.find_element_by_css_selector('.form-button-component').click()#
-		driver.find_element_by_xpath('//*[@id="board-layout-sidebar"]/div/div[2]/div/div[1]/div[1]/div/button').click()
+		#driver.find_element_by_css_selector('.form-button-component').click()#
+		#driver.find_element_by_xpath('//*[@id="board-layout-sidebar"]/div/div[2]/div/div[1]/div[1]/div/button').click()
 
 	while ('com/play/online' in driver.current_url):
 		delay(.1)
